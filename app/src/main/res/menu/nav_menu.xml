@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:id="@+id/rest">
+        <item
+            android:id="@+id/pet_a_cat"
+            android:title="@string/pet_a_cat" />
+        <item
+            android:id="@+id/look_out_window"
+            android:title="@string/look_out_the_window" />
+        <item
+            android:id="@+id/read_horoscope"
+            android:title="@string/read_horoscope" />
+    </group>
+    <group android:id="@+id/work">
+        <item
+            android:id="@+id/mine_bitcoin"
+            android:title="@string/main_bitcoin" />
+        <item
+            android:id="@+id/hack_pentagon"
+            android:title="@string/hack_the_pentagon" />
+
+        <item
+            android:id="@+id/hunt_aliens"
+            android:title="@string/hunt_aliens" />
+    </group>
+
+</menu>

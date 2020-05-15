@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">MovieViewie</string>
+    //Navigation Drawer
+    <string name="pet_a_cat">Pet a cat</string>
+    <string name="look_out_the_window">Look out the window</string>
+    <string name="read_horoscope">Read horoscope</string>
+    <string name="main_bitcoin">Mine bitcoin</string>
+    <string name="hack_the_pentagon">Hack The Pentagon</string>
+    <string name="hunt_aliens">Hunt aliens</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
 </resources>
