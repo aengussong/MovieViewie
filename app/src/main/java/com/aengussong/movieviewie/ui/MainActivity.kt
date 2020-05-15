@@ -2,18 +2,20 @@ package com.aengussong.movieviewie.ui
 
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.aengussong.movieviewie.R
+import com.aengussong.movieviewie.ui.details.DetailsFragment
+import com.aengussong.movieviewie.ui.list.ListFragment
 import com.aengussong.movieviewie.util.isTablet
 import com.aengussong.movieviewie.util.toggle
 import kotlinx.android.synthetic.main.activity_main.*
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.getViewModel
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ListFragment.OnItemSelected {
 
-    private val viewModel: DataViewModel by viewModel()
+    private lateinit var viewModel: DataViewModel
 
     private lateinit var drawerToggle: ActionBarDrawerToggle
 
@@ -21,10 +23,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        viewModel = getViewModel()
+
         setUpDrawer()
 
-        //todo remove
-        test_button.setOnClickListener { Toast.makeText(this, "test", Toast.LENGTH_LONG).show() }
+        displayFragment(ListFragment.newInstance())
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -43,6 +46,10 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onItemSelected(position: Int) {
+        displayFragment(DetailsFragment.newInstance(position), DetailsFragment.TAG)
+    }
+
     /**
      * Should always be called [onCreate], or [drawerToggle] won't be initialized for sync call in [onPostCreate]
      * */
@@ -54,5 +61,12 @@ class MainActivity : AppCompatActivity() {
         if (!isTablet) {
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
         }
+    }
+
+    private fun displayFragment(fragment: Fragment, tag: String? = null) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.container, fragment)
+            .addToBackStack(tag)
+            .commit()
     }
 }
