@@ -7,4 +7,5 @@
     <dimen name="common_text_size">16sp</dimen>
     <dimen name="image_height_large">400dp</dimen>
     <dimen name="image_height_normal">200dp</dimen>
+    <dimen name="image_height_small">100dp</dimen>
 </resources>
