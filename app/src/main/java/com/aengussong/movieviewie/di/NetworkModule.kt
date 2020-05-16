@@ -1,5 +1,6 @@
 package com.aengussong.movieviewie.di
 
+import com.aengussong.imageloadrr.ImageLoadrr
 import com.aengussong.movieviewie.repo.global.MoviesService
 import com.aengussong.movieviewie.util.BASE_URL
 import org.koin.dsl.module
@@ -15,4 +16,6 @@ val networkModule = module {
     }
 
     single { get<Retrofit>().create(MoviesService::class.java) }
+
+    single { ImageLoadrr() }
 }

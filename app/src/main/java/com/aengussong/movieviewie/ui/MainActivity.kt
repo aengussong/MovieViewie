@@ -12,10 +12,11 @@ import com.aengussong.movieviewie.util.isTablet
 import com.aengussong.movieviewie.util.toggle
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainActivity : AppCompatActivity(), ListFragment.OnItemSelected {
+class MainActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: DataViewModel
+    private val viewModel: DataViewModel by viewModel()
 
     private lateinit var drawerToggle: ActionBarDrawerToggle
 
@@ -23,11 +24,7 @@ class MainActivity : AppCompatActivity(), ListFragment.OnItemSelected {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        viewModel = getViewModel()
-
         setUpDrawer()
-
-        displayFragment(ListFragment.newInstance())
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -46,10 +43,6 @@ class MainActivity : AppCompatActivity(), ListFragment.OnItemSelected {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onItemSelected(position: Int) {
-        displayFragment(DetailsFragment.newInstance(position), DetailsFragment.TAG)
-    }
-
     /**
      * Should always be called [onCreate], or [drawerToggle] won't be initialized for sync call in [onPostCreate]
      * */
@@ -63,10 +56,4 @@ class MainActivity : AppCompatActivity(), ListFragment.OnItemSelected {
         }
     }
 
-    private fun displayFragment(fragment: Fragment, tag: String? = null) {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.container, fragment)
-            .addToBackStack(tag)
-            .commit()
-    }
 }

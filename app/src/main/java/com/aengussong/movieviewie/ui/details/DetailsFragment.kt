@@ -6,36 +6,30 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.navArgs
+import androidx.transition.TransitionInflater
+import androidx.viewpager2.widget.ViewPager2
 import com.aengussong.movieviewie.R
 import com.aengussong.movieviewie.ui.DataViewModel
 import com.aengussong.movieviewie.ui.details.pager.DetailsPagerAdapter
+import com.aengussong.movieviewie.ui.details.pager.DetailsPagerFragment
+import com.aengussong.movieviewie.util.setNavigationResult
 import kotlinx.android.synthetic.main.details_fragment.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-private const val KEY_POSITION = "position"
-
 class DetailsFragment : Fragment() {
-
-    companion object {
-        const val TAG = "details"
-
-        fun newInstance(position: Int) =
-            DetailsFragment().apply {
-                arguments = Bundle().apply {
-                    putInt(KEY_POSITION, position)
-                }
-            }
-    }
 
     private val viewModel: DataViewModel by sharedViewModel()
 
-    private val argsPosition by lazy { arguments?.getInt(KEY_POSITION) ?: 0 }
+    private val args: DetailsFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.details_fragment, container, false)
+        val view = inflater.inflate(R.layout.details_fragment, container, false)
+        handleTransition()
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -43,13 +37,34 @@ class DetailsFragment : Fragment() {
         setUpPager()
     }
 
+    private fun handleTransition() {
+        sharedElementEnterTransition =
+            TransitionInflater.from(context).inflateTransition(R.transition.move).apply {
+                duration = 500
+            }
+        postponeEnterTransition()
+    }
+
     private fun setUpPager() {
-        val adapter = DetailsPagerAdapter(this)
-        pager.adapter = adapter
-        viewModel.moviesData.observe(viewLifecycleOwner, Observer {
-            adapter.updateData(it)
-            pager.setCurrentItem(argsPosition, false)
+        val callback = object : DetailsPagerFragment.TransitionCallback {
+            override fun invoke() {
+                startPostponedEnterTransition()
+            }
+        }
+        DetailsPagerAdapter(this, callback).also { adapter ->
+            pager.adapter = adapter
+            viewModel.moviesData.observe(viewLifecycleOwner, Observer {
+                adapter.updateData(it)
+                pager.setCurrentItem(args.position, false)
+            })
+        }
+
+        pager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                setNavigationResult(position)
+            }
         })
+
     }
 
 }

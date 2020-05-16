@@ -16,15 +16,24 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            app:elevation="0dp"
             android:layout_weight="0"
+            app:elevation="0dp"
             app:menu="@menu/nav_menu" />
 
-        <RelativeLayout
-            android:id="@+id/container"
+        <fragment
+            android:id="@+id/nav_host_fragment"
+            android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            app:defaultNavHost="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+
+            app:layout_constraintTop_toTopOf="parent"
+            app:navGraph="@navigation/nav_graph" />
+
     </LinearLayout>
 
 </androidx.drawerlayout.widget.DrawerLayout>
