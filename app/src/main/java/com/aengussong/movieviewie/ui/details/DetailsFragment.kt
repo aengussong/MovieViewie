@@ -17,11 +17,15 @@ import com.aengussong.movieviewie.util.setNavigationResult
 import kotlinx.android.synthetic.main.details_fragment.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
+private const val KEY_LAST_POSITION = "last_position"
+
 class DetailsFragment : Fragment() {
 
     private val viewModel: DataViewModel by sharedViewModel()
 
     private val args: DetailsFragmentArgs by navArgs()
+
+    private var lastPosition:Int? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,7 +38,13 @@ class DetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        lastPosition = savedInstanceState?.getInt(KEY_LAST_POSITION)
         setUpPager()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putInt(KEY_LAST_POSITION, pager.currentItem)
+        super.onSaveInstanceState(outState)
     }
 
     private fun handleTransition() {
@@ -55,7 +65,7 @@ class DetailsFragment : Fragment() {
             pager.adapter = adapter
             viewModel.moviesData.observe(viewLifecycleOwner, Observer {
                 adapter.updateData(it)
-                pager.setCurrentItem(args.position, false)
+                pager.setCurrentItem(lastPosition ?: args.position, false)
             })
         }
 
