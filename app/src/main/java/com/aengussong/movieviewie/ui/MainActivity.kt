@@ -2,9 +2,11 @@ package com.aengussong.movieviewie.ui
 
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.aengussong.movieviewie.R
 import com.aengussong.movieviewie.ui.details.DetailsFragment
 import com.aengussong.movieviewie.ui.list.ListFragment
@@ -25,6 +27,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         setUpDrawer()
+        viewModel.errors.observe(this, Observer {
+            Toast.makeText(this, "Error occurred(", Toast.LENGTH_SHORT).show()
+        })
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {

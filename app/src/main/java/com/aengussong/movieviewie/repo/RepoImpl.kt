@@ -24,4 +24,8 @@ class RepoImpl(
     override suspend fun getMovies(): LiveData<List<MovieEntity>> = withContext(Dispatchers.IO) {
         moviesDao.getMovies()
     }
+
+    override suspend fun getMoviesCount(): Int = withContext(Dispatchers.IO){
+        moviesDao.countMovies()
+    }
 }

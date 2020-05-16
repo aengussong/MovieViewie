@@ -15,4 +15,7 @@ interface MoviesDao {
 
     @Query("SELECT * FROM movieentity")
     fun getMovies(): LiveData<List<MovieEntity>>
+
+    @Query("SELECT COUNT(name) FROM movieentity")
+    fun countMovies():Int
 }

@@ -8,6 +8,6 @@ interface Repo {
     suspend fun fetchMovies(): List<ServiceMovieModel>
 
     suspend fun saveMovies(movies:List<MovieEntity>)
-
     suspend fun getMovies(): LiveData<List<MovieEntity>>
+    suspend fun getMoviesCount():Int
 }
