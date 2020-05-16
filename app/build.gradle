@@ -55,6 +55,12 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.8.1'
     implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
 
+    //need to use this version for back compatibility with Android 4
+    //noinspection GradleDependency
+    implementation("com.squareup.okhttp3:okhttp:3.12.8") {
+        force = true
+    }
+
     implementation 'com.google.android.material:material:1.1.0'
 
     def room_version = "2.2.5"
